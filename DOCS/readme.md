@@ -7,6 +7,20 @@ Functions
 ---------
 
     
+`checkRequirements(requirementsFile: str) ‑> dict`
+:   Check that your requirements.txt is up to date with the most recent package
+    versions. Put in a function so dependants can use this function rather than
+    reimplement it themselves
+    
+    Args:
+            requirementsFile (str): file path to the requirements file
+    
+    Returns:
+            dict: dictionary containing info on each requirement such as the name,
+            specs (from requirements_parser), ver (most recent version), compatible
+            (is our version compatible with ver)
+
+    
 `cli()`
 :   cli entry point
 
@@ -59,7 +73,7 @@ Functions
             list[str]: A list in the form major, minor, patch ...
 
     
-`updateCompatible(req: requirements.requirement.Requirement) ‑> bool`
+`updateCompatible(req: requirements.requirement.Requirement) ‑> dict`
 :   Check if the most recent version of a python requirement is compatible
     with the current version
     
@@ -67,5 +81,6 @@ Functions
             req (Requirement): the requirement object as parsed by requirements_parser
     
     Returns:
-            bool: is our requirement from requirements.txt or similar compatible
-            with the new version per the version specifier
+            dict: return a dict of the most recent version (ver) and
+            is our requirement from requirements.txt or similar compatible
+            with the new version per the version specifier (compatible)

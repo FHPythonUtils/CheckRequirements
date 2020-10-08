@@ -3,9 +3,14 @@ versions
 """
 
 import argparse
+from metprint import LogType
 import requirements
 from requirements.requirement import Requirement
 import requests
+try:
+	from metprint import LAZY_PRINT
+except ModuleNotFoundError:
+	LAZY_PRINT = None
 
 
 def semver(version: str) -> list[str]:
@@ -136,7 +141,7 @@ def semCmp(versionA: str, versionB: str, sign: str) -> bool:
 	return _doSemCmp(semPad(semA, semLen), semPad(semB, semLen), sign)
 
 
-def updateCompatible(req: Requirement) -> bool:
+def updateCompatible(req: Requirement) -> dict:
 	"""Check if the most recent version of a python requirement is compatible
 	with the current version
 
@@ -144,16 +149,38 @@ def updateCompatible(req: Requirement) -> bool:
 		req (Requirement): the requirement object as parsed by requirements_parser
 
 	Returns:
-		bool: is our requirement from requirements.txt or similar compatible
-		with the new version per the version specifier
+		dict: return a dict of the most recent version (ver) and
+		is our requirement from requirements.txt or similar compatible
+		with the new version per the version specifier (compatible)
 	"""
 	url = "https://pypi.org/pypi/" + req.name + "/json"
 	request = requests.get(url)
 	updateVer = request.json()["info"]["version"]
 	for spec in req.specs:
-		if not semCmp(spec[1], updateVer, spec[0]):
-			return False
-	return True
+		if not semCmp(updateVer, spec[1], spec[0]):
+			return {"ver": updateVer, "compatible": False}
+	return {"ver": updateVer, "compatible": True}
+
+
+def checkRequirements(requirementsFile: str) -> dict:
+	"""Check that your requirements.txt is up to date with the most recent package
+	versions. Put in a function so dependants can use this function rather than
+	reimplement it themselves
+
+	Args:
+		requirementsFile (str): file path to the requirements file
+
+	Returns:
+		dict: dictionary containing info on each requirement such as the name,
+		specs (from requirements_parser), ver (most recent version), compatible
+		(is our version compatible with ver)
+	"""
+	reqsDict = {}
+	with open(requirementsFile, 'r') as requirementsTxt:
+		for req in requirements.parse(requirementsTxt):
+			reqsDict[
+			req.name] = {"name": req.name, "specs": req.specs, **updateCompatible(req)}
+	return reqsDict
 
 
 def cli():
@@ -161,10 +188,13 @@ def cli():
 	parser = argparse.ArgumentParser(description=__doc__)
 	parser.add_argument("--requirements-file", "-r", help="requirements file")
 	args = parser.parse_args()
-	with open(args.requirements_file if args.requirements_file
-	else "requirements.txt", 'r') as requirementsTxt:
-		for req in requirements.parse(requirementsTxt):
-			if updateCompatible(req):
-				print("+    OK: " + req.name)
-			else:
-				print("- Error: " + req.name)
+	reqsDict = checkRequirements(args.requirements_file
+	if args.requirements_file else "requirements.txt")
+	for req in reqsDict:
+		name = reqsDict[req]["name"]
+		if reqsDict[req]["compatible"]:
+			_ = (print("+    OK: " + name) if LAZY_PRINT is None else LAZY_PRINT(
+			name, LogType.SUCCESS))
+		else:
+			_ = (print("+ ERROR: " + name) if LAZY_PRINT is None else LAZY_PRINT(
+			name, LogType.ERROR))

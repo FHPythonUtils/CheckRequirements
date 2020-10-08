@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "checkrequirements"
-version = "2020"
+version = "2020.0.1"
 description = "Check that your requirements.txt is up to date with the most recent package versions"
 authors = ["FredHappyface"]
 classifiers = [
@@ -36,6 +36,7 @@ checkrequirements = 'checkrequirements:cli'
 python = "^3.5"
 requirements-parser = "^0.2.0"
 requests = "^2.24.0"
+metprint = {version = "^2020.6.1", optional = true}
 
 [tool.dephell.main]
 from = "pyproject.toml"

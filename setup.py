@@ -21,7 +21,7 @@ if os.path.exists(readme_path):
 setup(
     long_description=readme,
     name='checkrequirements',
-    version='2020',
+    version='2020.0.1',
     description='Check that your requirements.txt is up to date with the most recent package versions',
     python_requires='==3.*,>=3.5.0',
     project_urls={
@@ -58,6 +58,7 @@ setup(
     package_dir={"": "."},
     package_data={},
     install_requires=[
-        'requests==2.*,>=2.24.0', 'requirements-parser==0.*,>=0.2.0'
+        'metprint==2020.*,>=2020.6.1', 'requests==2.*,>=2.24.0',
+        'requirements-parser==0.*,>=0.2.0'
     ],
 )
