@@ -21,7 +21,7 @@ if os.path.exists(readme_path):
 setup(
     long_description=readme,
     name='checkrequirements',
-    version='2020.0.2',
+    version='2020.0.3',
     description='Check that your requirements.txt is up to date with the most recent package versions',
     python_requires='==3.*,>=3.5.0',
     project_urls={

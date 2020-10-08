@@ -190,6 +190,9 @@ def cli():
 	args = parser.parse_args()
 	reqsDict = checkRequirements(args.requirements_file
 	if args.requirements_file else "requirements.txt")
+	if len(reqsDict) == 0:
+		_ = (print("/  WARN: No requirements") if LAZY_PRINT is None else LAZY_PRINT(
+			"No requirements", LogType.WARNING))
 	for req in reqsDict:
 		name = reqsDict[req]["name"]
 		if reqsDict[req]["compatible"]:
