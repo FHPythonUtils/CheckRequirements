@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "checkrequirements"
-version = "2020.0.4"
+version = "2020.0.5"
 description = "Check that your requirements.txt is up to date with the most recent package versions"
 authors = ["FredHappyface"]
 classifiers = [

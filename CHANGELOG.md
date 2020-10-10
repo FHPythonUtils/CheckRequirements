@@ -2,7 +2,10 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
-## 2020.0.3 - 2020/10/10
+## 2020.0.5 - 2020/10/10
+- fix typing and bugfixes
+
+## 2020.0.4 - 2020/10/10
 - fix python 3.7 and 3.8
 
 ## 2020.0.3 - 2020/10/08

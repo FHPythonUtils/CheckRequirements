@@ -7,7 +7,7 @@ Functions
 ---------
 
     
-`checkRequirements(requirementsFile: str) ‑> dict`
+`checkRequirements(requirementsFile: str) ‑> list`
 :   Check that your requirements.txt is up to date with the most recent package
     versions. Put in a function so dependants can use this function rather than
     reimplement it themselves
@@ -16,7 +16,7 @@ Functions
             requirementsFile (str): file path to the requirements file
     
     Returns:
-            dict: dictionary containing info on each requirement such as the name,
+            Dependency: dictionary containing info on each requirement such as the name,
             specs (from requirements_parser), ver (most recent version), compatible
             (is our version compatible with ver)
 
@@ -73,7 +73,7 @@ Functions
             list[str]: A list in the form major, minor, patch ...
 
     
-`updateCompatible(req: Requirement) ‑> dict`
+`updateCompatible(req: Requirement) ‑> checkrequirements.UpdateCompatible`
 :   Check if the most recent version of a python requirement is compatible
     with the current version
     
@@ -81,6 +81,45 @@ Functions
             req (Requirement): the requirement object as parsed by requirements_parser
     
     Returns:
-            dict: return a dict of the most recent version (ver) and
+            UpdateCompatible: return a dict of the most recent version (ver) and
             is our requirement from requirements.txt or similar compatible
             with the new version per the version specifier (compatible)
+
+Classes
+-------
+
+`Dependency(*args, **kwargs)`
+:   Dependency type
+
+    ### Ancestors (in MRO)
+
+    * builtins.dict
+
+    ### Class variables
+
+    `compatible: bool`
+    :
+
+    `name: str`
+    :
+
+    `specs: tuple`
+    :
+
+    `ver: str`
+    :
+
+`UpdateCompatible(*args, **kwargs)`
+:   UpdateCompatible type
+
+    ### Ancestors (in MRO)
+
+    * builtins.dict
+
+    ### Class variables
+
+    `compatible: bool`
+    :
+
+    `ver: str`
+    :

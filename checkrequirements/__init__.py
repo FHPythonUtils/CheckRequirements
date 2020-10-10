@@ -4,14 +4,30 @@ versions
 from __future__ import annotations
 
 import argparse
-from metprint import LogType
+import typing
 import requirements
 from requirements.requirement import Requirement
 import requests
+lazyPrint = None
 try:
-	from metprint import LAZY_PRINT
+	from metprint import LAZY_PRINT, LogType
+	lazyPrint = LAZY_PRINT
 except ModuleNotFoundError:
-	LAZY_PRINT = None
+	pass
+
+
+class UpdateCompatible(typing.TypedDict):
+	""" UpdateCompatible type """
+	ver: str
+	compatible: bool
+
+
+class Dependency(typing.TypedDict):
+	""" Dependency type """
+	name: str
+	specs: tuple[str]
+	ver: str
+	compatible: bool
 
 
 def semver(version: str) -> list[str]:
@@ -142,7 +158,7 @@ def semCmp(versionA: str, versionB: str, sign: str) -> bool:
 	return _doSemCmp(semPad(semA, semLen), semPad(semB, semLen), sign)
 
 
-def updateCompatible(req: Requirement) -> dict:
+def updateCompatible(req: Requirement) -> UpdateCompatible:
 	"""Check if the most recent version of a python requirement is compatible
 	with the current version
 
@@ -150,20 +166,20 @@ def updateCompatible(req: Requirement) -> dict:
 		req (Requirement): the requirement object as parsed by requirements_parser
 
 	Returns:
-		dict: return a dict of the most recent version (ver) and
+		UpdateCompatible: return a dict of the most recent version (ver) and
 		is our requirement from requirements.txt or similar compatible
 		with the new version per the version specifier (compatible)
 	"""
-	url = "https://pypi.org/pypi/" + req.name + "/json"
-	request = requests.get(url)
-	updateVer = request.json()["info"]["version"]
+	url = "https://pypi.org/pypi/" + req.name + "/json" # type: ignore
+	request = requests.get(url) # type: ignore
+	updateVer = request.json()["info"]["version"] # type: ignore
 	for spec in req.specs:
 		if not semCmp(updateVer, spec[1], spec[0]):
 			return {"ver": updateVer, "compatible": False}
 	return {"ver": updateVer, "compatible": True}
 
 
-def checkRequirements(requirementsFile: str) -> dict:
+def checkRequirements(requirementsFile: str) -> list[Dependency]:
 	"""Check that your requirements.txt is up to date with the most recent package
 	versions. Put in a function so dependants can use this function rather than
 	reimplement it themselves
@@ -172,15 +188,14 @@ def checkRequirements(requirementsFile: str) -> dict:
 		requirementsFile (str): file path to the requirements file
 
 	Returns:
-		dict: dictionary containing info on each requirement such as the name,
+		Dependency: dictionary containing info on each requirement such as the name,
 		specs (from requirements_parser), ver (most recent version), compatible
 		(is our version compatible with ver)
 	"""
-	reqsDict = {}
+	reqsDict = []
 	with open(requirementsFile, 'r') as requirementsTxt:
-		for req in requirements.parse(requirementsTxt):
-			reqsDict[
-			req.name] = {"name": req.name, "specs": req.specs, **updateCompatible(req)}
+		for req in requirements.parse(requirementsTxt): # type: ignore
+			reqsDict.append({"name": req.name, "specs": req.specs, **updateCompatible(req)}) # type: ignore
 	return reqsDict
 
 
@@ -192,13 +207,13 @@ def cli():
 	reqsDict = checkRequirements(args.requirements_file
 	if args.requirements_file else "requirements.txt")
 	if len(reqsDict) == 0:
-		_ = (print("/  WARN: No requirements") if LAZY_PRINT is None else LAZY_PRINT(
-			"No requirements", LogType.WARNING))
+		_ = (print("/  WARN: No requirements") if lazyPrint is None else lazyPrint(
+		"No requirements", LogType.WARNING))
 	for req in reqsDict:
-		name = reqsDict[req]["name"]
-		if reqsDict[req]["compatible"]:
-			_ = (print("+    OK: " + name) if LAZY_PRINT is None else LAZY_PRINT(
+		name = req["name"]
+		if req["compatible"]:
+			_ = (print("+    OK: " + name) if lazyPrint is None else lazyPrint(
 			name, LogType.SUCCESS))
 		else:
-			_ = (print("+ ERROR: " + name) if LAZY_PRINT is None else LAZY_PRINT(
+			_ = (print("+ ERROR: " + name) if lazyPrint is None else lazyPrint(
 			name, LogType.ERROR))
