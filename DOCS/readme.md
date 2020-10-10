@@ -51,7 +51,7 @@ Functions
             bool: true if the comparison is met. e.g. 1.1.1, 2.2.2, <= -> True
 
     
-`semPad(ver: list, length: int) ‑> list`
+`semPad(ver: list[str], length: int) ‑> list`
 :   Pad a semver list to the required size. e.g. ["1", "0"] to ["1", "0", "0"]
     
     Args:
@@ -73,7 +73,7 @@ Functions
             list[str]: A list in the form major, minor, patch ...
 
     
-`updateCompatible(req: requirements.requirement.Requirement) ‑> dict`
+`updateCompatible(req: Requirement) ‑> dict`
 :   Check if the most recent version of a python requirement is compatible
     with the current version
     

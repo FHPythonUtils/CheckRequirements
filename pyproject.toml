@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "checkrequirements"
-version = "2020.0.3"
+version = "2020.0.4"
 description = "Check that your requirements.txt is up to date with the most recent package versions"
 authors = ["FredHappyface"]
 classifiers = [
@@ -14,8 +14,6 @@ classifiers = [
 	"Natural Language :: English",
 	"Operating System :: OS Independent",
 	"Programming Language :: Python :: 3",
-	"Programming Language :: Python :: 3.5",
-	"Programming Language :: Python :: 3.6",
 	"Programming Language :: Python :: 3.7",
 	"Programming Language :: Python :: 3.8",
 	"Programming Language :: Python :: 3.9",
@@ -33,7 +31,7 @@ readme = "README.md"
 checkrequirements = 'checkrequirements:cli'
 
 [tool.poetry.dependencies]
-python = "^3.5"
+python = "^3.7"
 requirements-parser = "^0.2.0"
 requests = "^2.24.0"
 metprint = {version = "^2020.6.1", optional = true}

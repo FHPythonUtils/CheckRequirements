@@ -1,6 +1,7 @@
 """Check that your requirements.txt is up to date with the most recent package
 versions
 """
+from __future__ import annotations
 
 import argparse
 from metprint import LogType
