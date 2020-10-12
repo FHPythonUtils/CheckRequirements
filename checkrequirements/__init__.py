@@ -2,6 +2,7 @@
 versions
 """
 from __future__ import annotations
+from sys import stdout
 
 import argparse
 import typing
@@ -15,6 +16,7 @@ try:
 except ModuleNotFoundError:
 	pass
 
+stdout.reconfigure(encoding="utf-8")
 
 class UpdateCompatible(typing.TypedDict):
 	""" UpdateCompatible type """

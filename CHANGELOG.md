@@ -2,6 +2,9 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2020.0.6 - 2020/10/12
+- set stdout to utf-8
+
 ## 2020.0.5 - 2020/10/10
 - fix typing and bugfixes
 
