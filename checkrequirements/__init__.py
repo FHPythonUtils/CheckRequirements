@@ -112,31 +112,39 @@ def _doSemCmp(semA: list[str], semB: list[str], sign: str) -> bool:
 	# Greater than or equal. e.g. 1.1.2 >= 1.1.1
 	if sign == ">=":
 		for index, _elem in enumerate(semA):
-			if partCmp(semA[index], semB[index]) < 0:
+			cmp = partCmp(semA[index], semB[index])
+			if cmp > 0:
+				return True
+			if cmp < 0:
 				return False
 		return True
 	# Less than or equal. e.g. 1.1.1 <= 1.1.2
 	if sign == "<=":
 		for index, _elem in enumerate(semA):
-			if partCmp(semA[index], semB[index]) > 0:
+			cmp = partCmp(semA[index], semB[index])
+			if cmp < 0:
+				return True
+			if cmp > 0:
 				return False
 		return True
 	# Greater than. e.g. 1.1.2 > 1.1.1
 	if sign == ">":
 		for index, _elem in enumerate(semA[:-1]):
-			if partCmp(semA[index], semB[index]) < 0:
+			cmp = partCmp(semA[index], semB[index])
+			if cmp > 0:
+				return True
+			if cmp < 0:
 				return False
-		if partCmp(semA[-1], semB[-1]) != 1:
-			return False
-		return True
+		return False
 	# Less than. e.g. 1.1.1 < 1.1.2
 	if sign == "<":
-		for index, _elem in enumerate(semA[:-1]):
-			if partCmp(semA[index], semB[index]) > 0:
+		for index, _elem in enumerate(semA):
+			cmp = partCmp(semA[index], semB[index])
+			if cmp < 0:
+				return True
+			if cmp > 0:
 				return False
-		if partCmp(semA[-1], semB[-1]) != -1:
-			return False
-		return True
+		return False
 	raise ValueError
 
 
