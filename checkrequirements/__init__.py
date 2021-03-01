@@ -1,14 +1,17 @@
-"""Check that your requirements.txt is up to date with the most recent package
-versions
+"""Check that your requirements.txt is up to date with the most recent package...
+
+versions.
 """
 from __future__ import annotations
-from sys import stdout
 
 import argparse
 import typing
+from sys import exit as sysexit, stdout
+
+import requests
 import requirements
 from requirements.requirement import Requirement
-import requests
+
 lazyPrint = None
 try:
 	from metprint import LAZY_PRINT, LogType
@@ -18,14 +21,15 @@ except ModuleNotFoundError:
 
 stdout.reconfigure(encoding="utf-8")
 
+
 class UpdateCompatible(typing.TypedDict):
-	""" UpdateCompatible type """
+	"""UpdateCompatible type."""
 	ver: str
 	compatible: bool
 
 
 class Dependency(typing.TypedDict):
-	""" Dependency type """
+	"""Dependency type."""
 	name: str
 	specs: tuple[str]
 	ver: str
@@ -33,7 +37,8 @@ class Dependency(typing.TypedDict):
 
 
 def semver(version: str) -> list[str]:
-	"""Convert a semver/ pythonver string to a list in the form major, minor,
+	"""Convert a semver/ python-ver string to a list in the form major, minor...
+
 	patch ...
 
 	Args:
@@ -46,7 +51,7 @@ def semver(version: str) -> list[str]:
 
 
 def semPad(ver: list[str], length: int) -> list[str]:
-	"""Pad a semver list to the required size. e.g. ["1", "0"] to ["1", "0", "0"]
+	"""Pad a semver list to the required size. e.g. ["1", "0"] to ["1", "0", "0"].
 
 	Args:
 		ver (list[str]): the semver representation
@@ -62,7 +67,7 @@ def semPad(ver: list[str], length: int) -> list[str]:
 
 
 def partCmp(verA: str, verB: str) -> int:
-	"""Compare parts of a semver
+	"""Compare parts of a semver.
 
 	Args:
 		verA (str): lhs part to compare
@@ -79,7 +84,7 @@ def partCmp(verA: str, verB: str) -> int:
 
 
 def _doSemCmp(semA: list[str], semB: list[str], sign: str) -> bool:
-	"""compare two semvers of equal length. e.g. 1.1.1 and 2.2.2
+	"""Compare two semvers of equal length. e.g. 1.1.1 and 2.2.2.
 
 	Args:
 		semA (list[str]): lhs to compare
@@ -149,7 +154,7 @@ def _doSemCmp(semA: list[str], semB: list[str], sign: str) -> bool:
 
 
 def semCmp(versionA: str, versionB: str, sign: str) -> bool:
-	"""compare two semvers of any length. e.g. 1.1 and 2.2.2
+	"""Compare two semvers of any length. e.g. 1.1 and 2.2.2.
 
 	Args:
 		semA (list[str]): lhs to compare
@@ -169,8 +174,9 @@ def semCmp(versionA: str, versionB: str, sign: str) -> bool:
 
 
 def updateCompatible(req: Requirement) -> UpdateCompatible:
-	"""Check if the most recent version of a python requirement is compatible
-	with the current version
+	"""Check if the most recent version of a python requirement is compatible...
+
+	with the current version.
 
 	Args:
 		req (Requirement): the requirement object as parsed by requirements_parser
@@ -190,9 +196,10 @@ def updateCompatible(req: Requirement) -> UpdateCompatible:
 
 
 def checkRequirements(requirementsFile: str) -> list[Dependency]:
-	"""Check that your requirements.txt is up to date with the most recent package
+	"""Check that your requirements.txt is up to date with the most recent package...
+
 	versions. Put in a function so dependants can use this function rather than
-	reimplement it themselves
+	reimplement it themselves.
 
 	Args:
 		requirementsFile (str): file path to the requirements file
@@ -205,20 +212,28 @@ def checkRequirements(requirementsFile: str) -> list[Dependency]:
 	reqsDict = []
 	with open(requirementsFile, 'r') as requirementsTxt:
 		for req in requirements.parse(requirementsTxt): # type: ignore
-			reqsDict.append({"name": req.name, "specs": req.specs, **updateCompatible(req)}) # type: ignore
+			reqsDict.append({
+			"name": req.name, "specs": req.specs,
+			**updateCompatible(req)}) # type: ignore
 	return reqsDict
 
 
 def cli():
-	""" cli entry point """
+	"""CLI entry point."""
 	parser = argparse.ArgumentParser(description=__doc__)
-	parser.add_argument("--requirements-file", "-r", help="requirements file")
+	# yapf: disable
+	parser.add_argument("--requirements-file", "-r",
+	help="requirements file")
+	parser.add_argument("--zero", "-0",
+	help="Return non zero exit code if an incompatible license is found", action="store_true")
+	# yapf: enable
 	args = parser.parse_args()
 	reqsDict = checkRequirements(args.requirements_file
 	if args.requirements_file else "requirements.txt")
 	if len(reqsDict) == 0:
 		_ = (print("/  WARN: No requirements") if lazyPrint is None else lazyPrint(
 		"No requirements", LogType.WARNING))
+	incompat = False
 	for req in reqsDict:
 		name = req["name"]
 		if req["compatible"]:
@@ -227,3 +242,7 @@ def cli():
 		else:
 			_ = (print("+ ERROR: " + name) if lazyPrint is None else lazyPrint(
 			name, LogType.ERROR))
+			incompat = True
+	if incompat and args.zero:
+		sysexit(1)
+	sysexit(0)

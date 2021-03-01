@@ -1,4 +1,4 @@
-""" entry point for python -m checkrequirements """
+"""Entry point for python -m checkrequirements."""
 from . import cli
 
 cli()
