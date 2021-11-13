@@ -6,30 +6,32 @@ from __future__ import annotations
 
 import argparse
 import typing
-from sys import exit as sysexit, stdout
+from pathlib import Path
+from sys import exit as sysexit
+from sys import stdout
 
 import requests
 import requirements
 from requirements.requirement import Requirement
 
-lazyPrint = None
 try:
 	from metprint import LAZY_PRINT, LogType
-	lazyPrint = LAZY_PRINT
 except ModuleNotFoundError:
-	pass
+	LAZY_PRINT = None
 
 stdout.reconfigure(encoding="utf-8")
 
 
 class UpdateCompatible(typing.TypedDict):
 	"""UpdateCompatible type."""
+
 	ver: str
 	compatible: bool
 
 
 class Dependency(typing.TypedDict):
 	"""Dependency type."""
+
 	name: str
 	specs: tuple[str]
 	ver: str
@@ -157,8 +159,8 @@ def semCmp(versionA: str, versionB: str, sign: str) -> bool:
 	"""Compare two semvers of any length. e.g. 1.1 and 2.2.2.
 
 	Args:
-		semA (list[str]): lhs to compare
-		semB (list[str]): rhs to compare
+		versionA (list[str]): lhs to compare
+		versionB (list[str]): rhs to compare
 		sign (str): string sign. one of ==, ~=, <=, >=, <, >
 
 	Raises:
@@ -186,9 +188,9 @@ def updateCompatible(req: Requirement) -> UpdateCompatible:
 		is our requirement from requirements.txt or similar compatible
 		with the new version per the version specifier (compatible)
 	"""
-	url = "https://pypi.org/pypi/" + req.name + "/json" # type: ignore
-	request = requests.get(url) # type: ignore
-	updateVer = request.json()["info"]["version"] # type: ignore
+	url = f"https://pypi.org/pypi/{req.name}/json"
+	request = requests.get(url)
+	updateVer = request.json()["info"]["version"]
 	for spec in req.specs:
 		if not semCmp(updateVer, spec[1], spec[0]):
 			return {"ver": updateVer, "compatible": False}
@@ -210,11 +212,10 @@ def checkRequirements(requirementsFile: str) -> list[Dependency]:
 		(is our version compatible with ver)
 	"""
 	reqsDict = []
-	with open(requirementsFile, 'r') as requirementsTxt:
-		for req in requirements.parse(requirementsTxt): # type: ignore
-			reqsDict.append({
-			"name": req.name, "specs": req.specs,
-			**updateCompatible(req)}) # type: ignore
+	for req in requirements.parse(Path(requirementsFile).read_text(encoding="utf-8")):  # type: ignore
+		reqsDict.append(
+			{"name": req.name, "specs": req.specs, **updateCompatible(req)}
+		)  # type: ignore
 	return reqsDict
 
 
@@ -228,20 +229,26 @@ def cli():
 	help="Return non zero exit code if an incompatible license is found", action="store_true")
 	# yapf: enable
 	args = parser.parse_args()
-	reqsDict = checkRequirements(args.requirements_file
-	if args.requirements_file else "requirements.txt")
+	reqsDict = checkRequirements(
+		args.requirements_file if args.requirements_file else "requirements.txt"
+	)
 	if len(reqsDict) == 0:
-		_ = (print("/  WARN: No requirements") if lazyPrint is None else lazyPrint(
-		"No requirements", LogType.WARNING))
+		_ = (
+			print("/  WARN: No requirements")
+			if LAZY_PRINT is None
+			else LAZY_PRINT("No requirements", LogType.WARNING)
+		)
 	incompat = False
 	for req in reqsDict:
 		name = req["name"]
 		if req["compatible"]:
-			_ = (print("+    OK: " + name) if lazyPrint is None else lazyPrint(
-			name, LogType.SUCCESS))
+			_ = (
+				print(f"+    OK: {name}")
+				if LAZY_PRINT is None
+				else LAZY_PRINT(name, LogType.SUCCESS)
+			)
 		else:
-			_ = (print("+ ERROR: " + name) if lazyPrint is None else lazyPrint(
-			name, LogType.ERROR))
+			_ = print(f"+ ERROR: {name}") if LAZY_PRINT is None else LAZY_PRINT(name, LogType.ERROR)
 			incompat = True
 	if incompat and args.zero:
 		sysexit(1)

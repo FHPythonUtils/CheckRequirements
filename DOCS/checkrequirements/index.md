@@ -21,7 +21,7 @@ versions.
 
 ## Dependency
 
-[[find in source code]](../../checkrequirements/__init__.py#L31)
+[[find in source code]](../../checkrequirements/__init__.py#L32)
 
 ```python
 class Dependency(typing.TypedDict):
@@ -41,7 +41,7 @@ UpdateCompatible type.
 
 ## checkRequirements
 
-[[find in source code]](../../checkrequirements/__init__.py#L198)
+[[find in source code]](../../checkrequirements/__init__.py#L200)
 
 ```python
 def checkRequirements(requirementsFile: str) -> list[Dependency]:
@@ -64,7 +64,7 @@ specs (from requirements_parser), ver (most recent version), compatible
 
 ## cli
 
-[[find in source code]](../../checkrequirements/__init__.py#L221)
+[[find in source code]](../../checkrequirements/__init__.py#L222)
 
 ```python
 def cli():
@@ -74,7 +74,7 @@ CLI entry point.
 
 ## partCmp
 
-[[find in source code]](../../checkrequirements/__init__.py#L69)
+[[find in source code]](../../checkrequirements/__init__.py#L71)
 
 ```python
 def partCmp(verA: str, verB: str) -> int:
@@ -93,7 +93,7 @@ Compare parts of a semver.
 
 ## semCmp
 
-[[find in source code]](../../checkrequirements/__init__.py#L156)
+[[find in source code]](../../checkrequirements/__init__.py#L158)
 
 ```python
 def semCmp(versionA: str, versionB: str, sign: str) -> bool:
@@ -103,8 +103,8 @@ Compare two semvers of any length. e.g. 1.1 and 2.2.2.
 
 #### Arguments
 
-- `semA` *list[str]* - lhs to compare
-- `semB` *list[str]* - rhs to compare
+- `versionA` *list[str]* - lhs to compare
+- `versionB` *list[str]* - rhs to compare
 - `sign` *str* - string sign. one of ==, ~=, <=, >=, <, >
 
 #### Raises
@@ -117,7 +117,7 @@ Compare two semvers of any length. e.g. 1.1 and 2.2.2.
 
 ## semPad
 
-[[find in source code]](../../checkrequirements/__init__.py#L53)
+[[find in source code]](../../checkrequirements/__init__.py#L55)
 
 ```python
 def semPad(ver: list[str], length: int) -> list[str]:
@@ -136,7 +136,7 @@ Pad a semver list to the required size. e.g. ["1", "0"] to ["1", "0", "0"].
 
 ## semver
 
-[[find in source code]](../../checkrequirements/__init__.py#L39)
+[[find in source code]](../../checkrequirements/__init__.py#L41)
 
 ```python
 def semver(version: str) -> list[str]:
@@ -156,7 +156,7 @@ patch ...
 
 ## updateCompatible
 
-[[find in source code]](../../checkrequirements/__init__.py#L176)
+[[find in source code]](../../checkrequirements/__init__.py#L178)
 
 ```python
 def updateCompatible(req: Requirement) -> UpdateCompatible:
