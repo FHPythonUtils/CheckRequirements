@@ -1,6 +1,4 @@
-"""Check that your requirements.txt is up to date with the most recent package...
-
-versions.
+"""Check that your requirements.txt is up to date with the most recent packageversions.
 """
 from __future__ import annotations
 
@@ -39,15 +37,13 @@ class Dependency(typing.TypedDict):
 
 
 def semver(version: str) -> list[str]:
-	"""Convert a semver/ python-ver string to a list in the form major, minor...
-
-	patch ...
+	"""Convert a semver/ python-ver string to a list in the form major, minor patch
 
 	Args:
 		version (str): The version to convert
 
 	Returns:
-		list[str]: A list in the form major, minor, patch ...
+		list[str]: A list in the form major, minor, patch
 	"""
 	return version.split(".")
 
@@ -136,7 +132,7 @@ def _doSemCmp(semA: list[str], semB: list[str], sign: str) -> bool:
 		return True
 	# Greater than. e.g. 1.1.2 > 1.1.1
 	if sign == ">":
-		for index, _elem in enumerate(semA[:-1]):
+		for index, _elem in enumerate(semA):
 			cmp = partCmp(semA[index], semB[index])
 			if cmp > 0:
 				return True
@@ -176,9 +172,8 @@ def semCmp(versionA: str, versionB: str, sign: str) -> bool:
 
 
 def updateCompatible(req: Requirement) -> UpdateCompatible:
-	"""Check if the most recent version of a python requirement is compatible...
-
-	with the current version.
+	"""Check if the most recent version of a python requirement is compatible with
+	the current version.
 
 	Args:
 		req (Requirement): the requirement object as parsed by requirements_parser
@@ -198,8 +193,7 @@ def updateCompatible(req: Requirement) -> UpdateCompatible:
 
 
 def checkRequirements(requirementsFile: str) -> list[Dependency]:
-	"""Check that your requirements.txt is up to date with the most recent package...
-
+	"""Check that your requirements.txt is up to date with the most recent package
 	versions. Put in a function so dependants can use this function rather than
 	reimplement it themselves.
 

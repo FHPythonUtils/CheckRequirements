@@ -3,6 +3,11 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2022 - 2022/01/27
+
+- Update deps
+- Add formal tests
+
 ## 2021.0.1 - 2021/11/12
 
 - add pre-commit

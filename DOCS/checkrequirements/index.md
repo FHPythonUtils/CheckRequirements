@@ -2,7 +2,7 @@
 
 > Auto-generated documentation for [checkrequirements](../../checkrequirements/__init__.py) module.
 
-Check that your requirements.txt is up to date with the most recent package...
+Check that your requirements.txt is up to date with the most recent packageversions.
 
 - [Checkrequirements](../README.md#checkrequirements-index) / [Modules](../README.md#checkrequirements-modules) / checkrequirements
     - [Dependency](#dependency)
@@ -17,11 +17,9 @@ Check that your requirements.txt is up to date with the most recent package...
     - Modules
         - [\_\_main\_\_](module.md#__main__)
 
-versions.
-
 ## Dependency
 
-[[find in source code]](../../checkrequirements/__init__.py#L32)
+[[find in source code]](../../checkrequirements/__init__.py#L30)
 
 ```python
 class Dependency(typing.TypedDict):
@@ -31,7 +29,7 @@ Dependency type.
 
 ## UpdateCompatible
 
-[[find in source code]](../../checkrequirements/__init__.py#L25)
+[[find in source code]](../../checkrequirements/__init__.py#L23)
 
 ```python
 class UpdateCompatible(typing.TypedDict):
@@ -41,14 +39,13 @@ UpdateCompatible type.
 
 ## checkRequirements
 
-[[find in source code]](../../checkrequirements/__init__.py#L200)
+[[find in source code]](../../checkrequirements/__init__.py#L195)
 
 ```python
 def checkRequirements(requirementsFile: str) -> list[Dependency]:
 ```
 
-Check that your requirements.txt is up to date with the most recent package...
-
+Check that your requirements.txt is up to date with the most recent package
 versions. Put in a function so dependants can use this function rather than
 reimplement it themselves.
 
@@ -64,7 +61,7 @@ specs (from requirements_parser), ver (most recent version), compatible
 
 ## cli
 
-[[find in source code]](../../checkrequirements/__init__.py#L222)
+[[find in source code]](../../checkrequirements/__init__.py#L216)
 
 ```python
 def cli():
@@ -74,7 +71,7 @@ CLI entry point.
 
 ## partCmp
 
-[[find in source code]](../../checkrequirements/__init__.py#L71)
+[[find in source code]](../../checkrequirements/__init__.py#L67)
 
 ```python
 def partCmp(verA: str, verB: str) -> int:
@@ -93,7 +90,7 @@ Compare parts of a semver.
 
 ## semCmp
 
-[[find in source code]](../../checkrequirements/__init__.py#L158)
+[[find in source code]](../../checkrequirements/__init__.py#L154)
 
 ```python
 def semCmp(versionA: str, versionB: str, sign: str) -> bool:
@@ -117,7 +114,7 @@ Compare two semvers of any length. e.g. 1.1 and 2.2.2.
 
 ## semPad
 
-[[find in source code]](../../checkrequirements/__init__.py#L55)
+[[find in source code]](../../checkrequirements/__init__.py#L51)
 
 ```python
 def semPad(ver: list[str], length: int) -> list[str]:
@@ -136,15 +133,13 @@ Pad a semver list to the required size. e.g. ["1", "0"] to ["1", "0", "0"].
 
 ## semver
 
-[[find in source code]](../../checkrequirements/__init__.py#L41)
+[[find in source code]](../../checkrequirements/__init__.py#L39)
 
 ```python
 def semver(version: str) -> list[str]:
 ```
 
-Convert a semver/ python-ver string to a list in the form major, minor...
-
-patch ...
+Convert a semver/ python-ver string to a list in the form major, minor patch
 
 #### Arguments
 
@@ -152,19 +147,18 @@ patch ...
 
 #### Returns
 
-- `list[str]` - A list in the form major, minor, patch ...
+- `list[str]` - A list in the form major, minor, patch
 
 ## updateCompatible
 
-[[find in source code]](../../checkrequirements/__init__.py#L178)
+[[find in source code]](../../checkrequirements/__init__.py#L174)
 
 ```python
 def updateCompatible(req: Requirement) -> UpdateCompatible:
 ```
 
-Check if the most recent version of a python requirement is compatible...
-
-with the current version.
+Check if the most recent version of a python requirement is compatible with
+the current version.
 
 #### Arguments
 

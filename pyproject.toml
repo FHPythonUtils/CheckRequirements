@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "checkrequirements"
-version = "2021.0.1"
+version = "2022"
 license = "mit"
 description = "Check that your requirements.txt is up to date with the most recent package versions"
 authors = ["FredHappyface"]
@@ -28,12 +28,15 @@ checkrequirements = 'checkrequirements:cli'
 
 [tool.poetry.dependencies]
 python = "^3.7"
-requirements-parser = "<2,>=0.2.0"
 requests = "<3,>=2.26.0"
-metprint = {version = "<2022,>=2020.7.1", optional = true}
+metprint = {version = "<2023,>=2021", optional = true}
+requirements-parser = "<2,>=0.5.0"
 
 [tool.poetry.extras]
 full = ["metprint"]
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
 
 [tool.pylint.basic]
 argument-naming-style = "camelCase"
