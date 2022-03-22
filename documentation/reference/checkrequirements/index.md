@@ -59,6 +59,10 @@ reimplement it themselves.
 specs (from requirements_parser), ver (most recent version), compatible
 (is our version compatible with ver)
 
+#### See also
+
+- [Dependency](#dependency)
+
 ## cli
 
 [[find in source code]](../../../checkrequirements/__init__.py#L216)
