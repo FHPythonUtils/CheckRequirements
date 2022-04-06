@@ -1,7 +1,5 @@
+requirements_optional.txt
 
-README.rst
-
-# DepHell stuff
 poetry.lock
 
 # Byte-compiled / optimized / DLL files

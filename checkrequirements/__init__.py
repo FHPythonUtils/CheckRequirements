@@ -12,11 +12,6 @@ import requests
 import requirements
 from requirements.requirement import Requirement
 
-try:
-	from metprint import LAZY_PRINT, LogType
-except ModuleNotFoundError:
-	LAZY_PRINT = None
-
 stdout.reconfigure(encoding="utf-8")
 
 
@@ -227,22 +222,14 @@ def cli():
 		args.requirements_file if args.requirements_file else "requirements.txt"
 	)
 	if len(reqsDict) == 0:
-		_ = (
-			print("/  WARN: No requirements")
-			if LAZY_PRINT is None
-			else LAZY_PRINT("No requirements", LogType.WARNING)
-		)
+		print("/  WARN: No requirements")
 	incompat = False
 	for req in reqsDict:
 		name = req["name"]
 		if req["compatible"]:
-			_ = (
-				print(f"+    OK: {name}")
-				if LAZY_PRINT is None
-				else LAZY_PRINT(name, LogType.SUCCESS)
-			)
+			print(f"+    OK: {name}")
 		else:
-			_ = print(f"+ ERROR: {name}") if LAZY_PRINT is None else LAZY_PRINT(name, LogType.ERROR)
+			print(f"+ ERROR: {name}")
 			incompat = True
 	if incompat and args.zero:
 		sysexit(1)

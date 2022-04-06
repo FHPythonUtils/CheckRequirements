@@ -3,6 +3,11 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2022.0.1 - 2022/04/06
+
+- Remove metprint
+- Update deps
+
 ## 2022 - 2022/01/27
 
 - Update deps
@@ -40,10 +45,6 @@ patch-level version changes can be found in [commit messages](../../commits/mast
 - output for no requirements
 
 ## 2020.0.2 - 2020/10/08
-
-- `metprint` is now optional
-
-## 2020.0.1 - 2020/10/08
 
 - Use `metprint` if available
 - Bugfixes
