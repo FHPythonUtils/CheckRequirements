@@ -1,9 +1,8 @@
-# Checkrequirements Modules
+# Checkrequirements Index
 
-> Auto-generated documentation modules index.
+> Auto-generated documentation index.
 
-Full list of [Checkrequirements](README.md#checkrequirements-index) project modules.
+A full list of `Checkrequirements` project modules.
 
-- [Checkrequirements Index](README.md#checkrequirements-index)
 - [Checkrequirements](checkrequirements/index.md#checkrequirements)
     - [Module](checkrequirements/module.md#module)
