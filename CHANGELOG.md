@@ -3,6 +3,10 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2023
+
+- checkrequirements is now a thin wrapper around poetry show and sets an exit code only. **Note:** this only supports poetry based environments. `requirements.txt` and other build systems are no longer supported!
+
 ## 2022.0.1 - 2022/04/06
 
 - Remove metprint

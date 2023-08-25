@@ -13,41 +13,13 @@
 
 <img src="readme-assets/icons/name.png" alt="Project Icon" width="750">
 
-Check that your requirements.txt is up to date with the most recent package
-versions
+Uses poetry to check outdated dependencies and set a status code to 1 if outdated packages are found. This is ideal for ci/cd. If running manually, its better to use poetry directly.
 
-## Example Use
-
-See below for the output if you run `checkrequirements` in this directory
-
-```txt
->> checkrequirements
-+    OK: requests
-+    OK: requirements-parser
-```
-
-### Help
-
-```txt
-usage: __main__.py [-h] [--requirements-file REQUIREMENTS_FILE]
-
-Check that your requirements.txt is up to date with the most recent package versions
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --requirements-file REQUIREMENTS_FILE, -r REQUIREMENTS_FILE
-                        requirements file
-```
-
-You can also import this into your own project and use any of the functions
-in the DOCS
+**Note:** this only supports poetry based environments. `requirements.txt` and other build systems are not currently supported!
 
 <!-- omit in toc -->
 ## Table of Contents
 
-- [Example Use](#example-use)
-	- [Help](#help)
-- [Documentation](#documentation)
 - [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
 	- [Built for](#built-for)
@@ -78,23 +50,6 @@ in the DOCS
 	- [Security](#security)
 	- [Support](#support)
 	- [Rationale](#rationale)
-
-## Documentation
-
-A high-level overview of how the documentation is organized organized will help you know
-where to look for certain things:
-
-<!--
-- [Tutorials](/documentation/tutorials) take you by the hand through a series of steps to get
-  started using the software. Start here if you’re new.
--->
-- The [Technical Reference](/documentation/reference) documents APIs and other aspects of the
-  machinery. This documentation describes how to use the classes and functions at a lower level
-  and assume that you have a good high-level understanding of the software.
-<!--
-- The [Help](/documentation/help) guide provides a starting point and outlines common issues that you
-  may have.
--->
 
 ## Install With PIP
 
