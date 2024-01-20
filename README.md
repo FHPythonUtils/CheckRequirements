@@ -1,3 +1,38 @@
+========================= No Longer Supported =========================
+
+**This project has reached the end of development and is no longer
+supported**
+
+## What Does This Mean Now?
+
+- The repository, including issues, pull requests, labels, milestones, projects,
+  wiki, releases, commits, tags, branches, reactions, and comments, has
+  transitioned into a read-only state.
+- While active contributions and changes are no longer accepted, you can still
+  fork and clone the repository. The project's original license remains in effect.
+
+## What Does This Mean for the Future?
+
+- The repository is scheduled for permanent deletion on 31/01/2025. We
+  encourage you to download any materials or resources you may need from the
+  repository before this date.
+- While this project is unlikely to be un-archived, the possibility remains open,
+  albeit with minimal probability.
+
+## What to use instead?
+
+```cmd
+poetry show --latest
+```
+
+or
+
+```cmd
+poetry show --outdated
+```
+
+========================= No Longer Supported =========================
+
 [![GitHub top language](https://img.shields.io/github/languages/top/FHPythonUtils/CheckRequirements.svg?style=for-the-badge&cacheSeconds=28800)](../../)
 [![Issues](https://img.shields.io/github/issues/FHPythonUtils/CheckRequirements.svg?style=for-the-badge&cacheSeconds=28800)](../../issues)
 [![License](https://img.shields.io/github/license/FHPythonUtils/CheckRequirements.svg?style=for-the-badge&cacheSeconds=28800)](/LICENSE.md)
@@ -12,6 +47,12 @@
 
 <img src="readme-assets/icons/name.png" alt="Project Icon" width="750">
 
+**Note:** checkrequirements is deprecated in favour of `poetry show --latest` or `poetry show --outdated`
+
+```cmd
+poetry show --latest
+```
+
 Uses poetry to check outdated dependencies and set a status code to 1 if outdated packages are found. This is ideal for ci/cd. If running manually, its better to use poetry directly.
 
 **Note:** this only supports poetry based environments. `requirements.txt` and other build systems are not currently supported!
@@ -19,6 +60,9 @@ Uses poetry to check outdated dependencies and set a status code to 1 if outdate
 <!-- omit in toc -->
 ## Table of Contents
 
+- [What Does This Mean Now?](#what-does-this-mean-now)
+- [What Does This Mean for the Future?](#what-does-this-mean-for-the-future)
+- [What to use instead?](#what-to-use-instead)
 - [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
 	- [Built for](#built-for)
